@@ -17,6 +17,7 @@ p.get_default_input_device_info()
 这是查看自己麦克风设备的信息，里边包含rate
 
 我更改为44100Hz后，使用pocketsphinx进行识别，识别总是出错
+
 然后我google发现pocketsphinx中的默认采样率是16000Hz，
 然后我当时有两种选择:更改pocketsphinx种的默认采样率或者更改pyaudio中open()的采样率
 更改pocktsphinx默认采样率还要重新下载/en-us文件
@@ -24,16 +25,28 @@ p.get_default_input_device_info()
 然后又回到最初的那个问题：
 OSError: [Errno -9997] Invalid sample rate, 无效的采样率
 然后我想找到一种方式能把设备的rate兼容到16000Hz
+
 最后我同事帮我找到这个问题，是最基本的配置问题
+
 首先安装 sudo apt-get install pulseaudio
+
 在 /home/pi 中找到 .asoundrc 改为一下格式
+
 pcm.!default {
+
     type hw
+    
     card 1
+    
 }
+
 ctl.!default {
+
     type hw
+    
     card 1
+    
 }
+
 然后试运行一下，成功运行。
 https://blog.csdn.net/u013372900/article/details/80296125
